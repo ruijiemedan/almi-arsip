@@ -16,9 +16,10 @@ class App extends BaseConfig
      *
      * E.g., http://example.com/
      * 
-     * PERBAIKAN: Menggunakan deteksi otomatis baseURL
+     * PERBAIKAN: Ganti dengan domain production Anda
+     * Atau gunakan http:// jika belum ada SSL
      */
-    public string $baseURL = '';
+    public string $baseURL = 'http://live-production-ekerjaku-app.j2p2tu.easypanel.host/';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -120,6 +121,8 @@ class App extends BaseConfig
      * by the application in descending order of priority. If no match is
      * found, the first locale will be used.
      *
+     * IncomingRequest::setLocale() also uses this list.
+     *
      * @var list<string>
      */
     public array $supportedLocales = ['en'];
@@ -131,6 +134,11 @@ class App extends BaseConfig
      *
      * The default timezone that will be used in your application to display
      * dates with the date helper, and can be retrieved through app_timezone()
+     *
+     * PERBAIKAN: Diubah ke Asia/Jakarta untuk timezone Indonesia
+     *
+     * @see https://www.php.net/manual/en/timezones.php for list of timezones
+     *      supported by PHP.
      */
     public string $appTimezone = 'Asia/Jakarta';
 
@@ -155,6 +163,8 @@ class App extends BaseConfig
      * made via a secure connection (HTTPS). If the incoming request is not
      * secure, the user will be redirected to a secure version of the page
      * and the HTTP Strict Transport Security (HSTS) header will be set.
+     * 
+     * CATATAN: Set ke true jika sudah menggunakan HTTPS/SSL
      */
     public bool $forceGlobalSecureRequests = false;
 
@@ -168,79 +178,18 @@ class App extends BaseConfig
      * X-Forwarded-For or Client-IP in order to properly identify
      * the visitor's IP address.
      *
-     * You can use both an array or a comma-separated list of proxy addresses,
-     * as well as specifying whole subnets. Here are a few examples:
+     * You need to set a proxy IP address or IP address with subnets and
+     * the HTTP header for the client IP address.
      *
-     * Comma-separated:    '10.0.1.200,192.168.5.0/24'
-     * Array: ['10.0.1.200', '192.168.5.0/24']
+     * Here are some examples:
+     *     [
+     *         '10.0.1.200'     => 'X-Forwarded-For',
+     *         '192.168.5.0/24' => 'X-Real-IP',
+     *     ]
      *
-     * @var string|list<string>
+     * @var array<string, string>
      */
-    public $proxyIPs = '';
-
-    /**
-     * --------------------------------------------------------------------------
-     * CSRF Token Name
-     * --------------------------------------------------------------------------
-     *
-     * The token name.
-     */
-    public string $CSRFTokenName = 'csrf_test_name';
-
-    /**
-     * --------------------------------------------------------------------------
-     * CSRF Header Name
-     * --------------------------------------------------------------------------
-     *
-     * The header name.
-     */
-    public string $CSRFHeaderName = 'X-CSRF-TOKEN';
-
-    /**
-     * --------------------------------------------------------------------------
-     * CSRF Cookie Name
-     * --------------------------------------------------------------------------
-     *
-     * The cookie name.
-     */
-    public string $CSRFCookieName = 'csrf_cookie_name';
-
-    /**
-     * --------------------------------------------------------------------------
-     * CSRF Expire
-     * --------------------------------------------------------------------------
-     *
-     * The number in seconds the token should expire.
-     */
-    public int $CSRFExpire = 7200;
-
-    /**
-     * --------------------------------------------------------------------------
-     * CSRF Regenerate
-     * --------------------------------------------------------------------------
-     *
-     * Regenerate token on every submission?
-     */
-    public bool $CSRFRegenerate = true;
-
-    /**
-     * --------------------------------------------------------------------------
-     * CSRF Redirect
-     * --------------------------------------------------------------------------
-     *
-     * Redirect to previous page with error on failure?
-     */
-    public bool $CSRFRedirect = false;
-
-    /**
-     * --------------------------------------------------------------------------
-     * CSRF SameSite
-     * --------------------------------------------------------------------------
-     *
-     * Setting for CSRF SameSite cookie token. Allowed values are:
-     * 'Lax', 'None', 'Strict' or null for default which is 'Lax'.
-     */
-    public ?string $CSRFSameSite = 'Lax';
+    public array $proxyIPs = [];
 
     /**
      * --------------------------------------------------------------------------
@@ -250,15 +199,13 @@ class App extends BaseConfig
      * Enables the Response's Content Secure Policy to restrict the sources that
      * can be used for images, scripts, CSS files, audio, video, etc. If enabled,
      * the Response object will populate default values for the policy from the
-     * `ContentSecurityPolicy` config file. Controllers can always add to those
+     * `ContentSecurityPolicy.php` file. Controllers can always add to those
      * restrictions at run time.
      *
      * For a better understanding of CSP, see these documents:
      *
-     * @see http://www.w3.org/TR/CSP/
      * @see http://www.html5rocks.com/en/tutorials/security/content-security-policy/
-     * @see http://content-security-policy.com/
-     * @see https://github.com/paragonie/awesome-appsec#content-security-policy
+     * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
 }
