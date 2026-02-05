@@ -10,6 +10,7 @@
 #--------------------------------------------------------------------
 # Ubah ke production saat deploy ke server live
 CI_ENVIRONMENT = development
+app.baseURL = 'https://live-production-ekerjaku-app.j2p2tu.easypanel.host/'
 
 #--------------------------------------------------------------------
 # APP
