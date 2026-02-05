@@ -1,78 +1,78 @@
 #--------------------------------------------------------------------
-# Example Environment Configuration file
-#
-# This file can be used as a starting point for your own
-# custom .env files, and contains most of the possible settings
-# available in a default install.
-#
-# By default, all of the settings are commented out. If you want
-# to override the setting, you must un-comment it by removing the '#'
-# at the beginning of the line.
+# PERBAIKAN E-ARSIP - Environment Configuration
+#--------------------------------------------------------------------
+# File ini sudah diperbaiki untuk mengatasi masalah redirect ke localhost
+# Pastikan file ini diubah namanya menjadi .env (tanpa extension)
 #--------------------------------------------------------------------
 
 #--------------------------------------------------------------------
 # ENVIRONMENT
 #--------------------------------------------------------------------
-
-# CI_ENVIRONMENT = production
+# Ubah ke production saat deploy ke server live
+CI_ENVIRONMENT = development
 
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
+# PENTING: Kosongkan baseURL agar otomatis detect domain
+# Jika ingin spesifik, isi dengan domain lengkap Anda
+# Contoh: app.baseURL = 'https://yourdomain.com/'
+app.baseURL = ''
 
-# app.baseURL = ''
-# If you have trouble with `.`, you could also use `_`.
-# app_baseURL = ''
-# app.forceGlobalSecureRequests = false
-# app.CSPEnabled = false
+# Force HTTPS (ubah ke true saat production dengan SSL)
+app.forceGlobalSecureRequests = false
+
+# CSP (Content Security Policy)
+app.CSPEnabled = false
 
 #--------------------------------------------------------------------
 # DATABASE
 #--------------------------------------------------------------------
-
-
-database.default.hostname = localhost
+# Sesuaikan dengan konfigurasi database Anda
+database.default.hostname = ekerja_almi_db
 database.default.database = e_arsip_ci4
-database.default.username = root
-database.default.password = 
+database.default.username = arif
+database.default.password = 2LTJt)BtY9cGuW(&
 database.default.DBDriver = MySQLi
 database.default.DBPrefix =
 database.default.port = 3306
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
-# database.default.DBDriver = MySQLi
-# database.default.DBPrefix =
-# database.default.port = 3306
-
-# If you use MySQLi as tests, first update the values of Config\Database::$tests.
-# database.tests.hostname = localhost
-# database.tests.database = ci4_test
-# database.tests.username = root
-# database.tests.password = root
-# database.tests.DBDriver = MySQLi
-# database.tests.DBPrefix =
-# database.tests.charset = utf8mb4
-# database.tests.DBCollat = utf8mb4_general_ci
-# database.tests.port = 3306
-
 #--------------------------------------------------------------------
 # ENCRYPTION
 #--------------------------------------------------------------------
-
-# encryption.key =
+# Generate key dengan: php spark key:generate
+# Atau gunakan: bin2hex(random_bytes(32))
+# encryption.key = YOUR-ENCRYPTION-KEY-HERE
 
 #--------------------------------------------------------------------
 # SESSION
 #--------------------------------------------------------------------
-
-# session.driver = 'CodeIgniter\Session\Handlers\FileHandler'
-# session.savePath = null
+# Konfigurasi session untuk keamanan lebih baik
+session.driver = 'CodeIgniter\Session\Handlers\FileHandler'
+session.cookieName = 'ci_session'
+session.expiration = 7200
+session.savePath = null
+session.matchIP = false
+session.timeToUpdate = 300
+session.regenerateDestroy = false
 
 #--------------------------------------------------------------------
 # LOGGER
 #--------------------------------------------------------------------
+# 0 = Emergency, 1 = Alert, 2 = Critical, 3 = Error
+# 4 = Warning, 5 = Notice, 6 = Info, 7 = Debug, 8 = All Messages, 9 = Off
+logger.threshold = 4
 
-# logger.threshold = 4
+#--------------------------------------------------------------------
+# SECURITY
+#--------------------------------------------------------------------
+# Tambahan konfigurasi keamanan
+security.csrfProtection = 'session'
+security.tokenRandomize = false
+security.tokenName = 'csrf_token_name'
+security.headerName = 'X-CSRF-TOKEN'
+security.cookieName = 'csrf_cookie_name'
+security.expires = 7200
+security.regenerate = true
+security.redirect = true
+security.samesite = 'Lax'
